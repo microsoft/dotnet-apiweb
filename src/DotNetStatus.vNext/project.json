@@ -11,7 +11,8 @@
     ],
     "dependencies": {
         "Microsoft.Fx.Portability": "",
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta1"
+        "Microsoft.AspNet.Server.IIS": "1.0.0-beta1",
+        "Microsoft.AspNet.Mvc": "6.0.0-beta1"
     },
     "frameworks": {
         "aspnetcore50": { }

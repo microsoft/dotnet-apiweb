@@ -15,15 +15,16 @@
         Microsoft, see ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx.
     -->
 
-    <link rel="icon" href="@Url.Content("~/assets/img/favicon.ico")">
+    <link rel="icon" href="~/img/dotnet.ico" />
 
-    @Styles.Render("~/css/bootstrap")
-    @Styles.Render("~/css/common")
+    <link rel="stylesheet" href="~/lib/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 
-    @Scripts.Render("~/bundles/common")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryajax")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/bootstrap.js"></script>
+    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/site.js"></script>
 
     @RenderSection("scripts", required: false)
     <meta name="description" content="Status of the .NET Framework" />

@@ -1,12 +1,12 @@
-﻿using System;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
-using Microsoft.Framework.DependencyInjection;
+﻿using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
+using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using Microsoft.Framework.Logging.Console;
-using Microsoft.AspNet.Diagnostics;
-using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Fx.Portability;
+using System;
 
 namespace DotNetStatus.vNext
 {
@@ -15,6 +15,7 @@ namespace DotNetStatus.vNext
         public Startup(IHostingEnvironment env)
         {
             Configuration = new Configuration()
+                .AddJsonFile("config.json")
                 .AddEnvironmentVariables();
         }
 
@@ -23,7 +24,7 @@ namespace DotNetStatus.vNext
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-            
+
             // Add the following to the request pipeline only in development environment.
             if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
             {
@@ -46,8 +47,22 @@ namespace DotNetStatus.vNext
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddInstance(new ProductInformation("DotNetStatus"));
+            services.AddSingleton<IApiPortService>(CreateService);
+
             // Add MVC services to container
             services.AddMvc();
+        }
+
+        private object CreateService(IServiceProvider arg)
+        {
+            string endpoint = null;
+            if(!Configuration.TryGet("ApiPortService", out endpoint))
+            {
+                throw new ArgumentNullException("ApiPortService", "Need to specify ApiPortService in config.json");
+            }
+
+            return new ApiPortService(endpoint, arg.GetRequiredService<ProductInformation>());
         }
     }
 }

@@ -16,28 +16,17 @@ namespace DotNetStatus.Controllers
         }
 
         [Route("usage")]
-        public async Task<ActionResult> Index()
-        {
-            return View(await GetViewModelAsync(0, 25, UsageDataFilter.HideSupported));
-        }
-
-        [Route("usage/page")]
-        public async Task<PartialViewResult> Page(int? skip, int? top, UsageDataFilter? filter, IEnumerable<string> targets)
-        {
-            return PartialView("_Usage", await GetViewModelAsync(skip ?? 0, top, filter, targets));
-        }
-
-        private async Task<UsageDataCollection> GetViewModelAsync(int skip, int? top = null, UsageDataFilter? filter = null, IEnumerable<string> targets = null)
+        public async Task<ActionResult> Index(int? skip, int? top, UsageDataFilter? filter, IEnumerable<string> targets)
         {
             try
             {
-                var usage = await _apiPortService.GetUsageDataAsync(skip, top, filter, targets);
+                var usage = await _apiPortService.GetUsageDataAsync(skip ?? 0, top ?? 25, filter ?? UsageDataFilter.HideSupported, targets);
 
-                return usage.Response;
+                return View(usage.Response);
             }
             catch (PortabilityAnalyzerException)
             {
-                return null;
+                return View(null);
             }
         }
     }

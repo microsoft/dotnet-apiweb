@@ -1,0 +1,124 @@
+﻿@model Microsoft.Fx.Portability.ObjectModel.AnalyzeResponse
+
+@if (Model.MissingDependencies.Any())
+{
+    <div class="row">
+        @{
+    var count = 0;
+    var panelGroupName = "assemblyPanelGroup";
+    var grouped = Model.MissingDependencies.GroupBy(a => a.TypeDocId).OrderBy(a => a.Key).Where(a => !String.IsNullOrEmpty(a.Key));
+        }
+
+        @if (grouped.Any())
+        {
+            <div class="panel-group" id="@panelGroupName">
+                @foreach (var item in grouped)
+                {
+                    var panelName = String.Format("assemblyPanel{0}", count++);
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a data-toggle="collapse" data-parent="#@panelGroupName" href="#@panelName">
+                                @item.Key
+                            </a>
+                        </div>
+                        <div id="@panelName" class="panel-collapse collapse">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>API</th>
+                                        @foreach (var target in Model.Targets)
+                                        {
+                                            <th>@target</th>
+                                        }
+                                    </tr>
+                                    @foreach (var value in item)
+                                    {
+                                        <tr>
+                                            <td>@value</td>
+                                            @for (var i = 0; i < Model.Targets.Count; i++)
+                                            {
+                                                var supportedTarget = value.TargetStatus[i];
+                                                var actualTarget = Model.Targets[i].Version;
+
+                                                if (supportedTarget == null || actualTarget < supportedTarget)
+                                                {
+                                                    <td class="IconErrorEncoded"></td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="IconSuccessEncoded"></td>
+                                                }
+                                            }
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="panel-group" id="@panelGroupName">
+                @{
+            var panelName = String.Format("assemblyPanel{0}", count++);
+                }
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" data-parent="#@panelGroupName" href="#@panelName">
+                            Unsupported types
+                        </a>
+                    </div>
+                    <div id="@panelName" class="panel-collapse collapse">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <th>Type Name</th>
+                                    @foreach (var target in Model.Targets)
+                                    {
+                                        <th>@target</th>
+                                    }
+                                </tr>
+                                @foreach (var item in Model.MissingDependencies)
+                                {
+                                    <tr>
+                                        <td>@item.MemberDocId</td>
+                                        @for (var i = 0; i < Model.Targets.Count; i++)
+                                        {
+                                            var supportedTarget = item.TargetStatus[i];
+                                            var actualTarget = Model.Targets[i].Version;
+
+                                            if (supportedTarget == null || actualTarget < supportedTarget)
+                                            {
+                                                <td class="IconErrorEncoded"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="IconSuccessEncoded"></td>
+                                            }
+                                        }
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="row">
+        <p>You are good to go for the following platforms</p>
+        <ul class="list-group">
+            @foreach (var target in Model.Targets)
+            {
+                <li class="list-group-item">@target</li>
+            }
+        </ul>
+    </div>
+}

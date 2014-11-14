@@ -1,0 +1,33 @@
+﻿@using Microsoft.Fx.Portability;
+@using Microsoft.Fx.Portability.ObjectModel;
+
+@{
+    ViewBag.Title = "View Submission Result";
+
+    var exception = Model as PortabilityAnalyzerException;
+    var m = Model as AnalyzeResponse;
+}
+
+@if (exception != null)
+{
+    @Html.Partial("_Find", exception)
+}
+else if (m != null && Model.Targets == null)
+{
+    @Html.Partial("_Find", m)
+}
+else if (m != null)
+{
+    <div class="container">
+        <div class="jumbotron">
+            <h2>View result for @m.SubmissionId</h2>
+        </div>
+        <div class="container">
+            @Html.Partial("_SubmissionResult", m)
+        </div>
+    </div>
+}
+else
+{
+    @Html.Partial("_Find")
+}

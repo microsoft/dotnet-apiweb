@@ -1,0 +1,52 @@
+﻿.apiinfo {
+    color: white;
+    font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+
+a.apiinfo:link {
+    color: white;
+    text-decoration: none;
+}
+
+a.apiinfo:visited {
+    color: white;
+    text-decoration: none;
+}
+
+a.apiinfo:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+a.apiinfo:active {
+    color: white;
+    text-decoration: none;
+}
+
+.sourcecompatibility {
+    background-color: purple;
+}
+
+.recommendedchange {
+    background-color: mediumpurple;
+}
+
+.legend {
+    border: hidden;
+}
+
+div.apiinfo.legend, .sourcecompatibility, .recommendedchange {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+td.legend-key {
+    width: 50px;
+}
+
+span.apiinfo.legend {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0;
+}

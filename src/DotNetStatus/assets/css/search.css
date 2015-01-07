@@ -1,0 +1,9 @@
+﻿.ui-autocomplete {
+    /* Need to set z-index high so it will show above the navbar */
+    z-index: 100000;
+}
+
+.invalid-query {
+    background-color: lightcoral;
+    color: white;
+}

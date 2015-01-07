@@ -1,0 +1,83 @@
+﻿
+<div class="row">
+    <div class="col-md-12">
+        This data is a summary of the data we have collected from ApiPort (console and VS extension) submissions.  This data is from @Model.SubmissionCount.ToString("N0") submissions.
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-5">
+        <table class="table table-condensed legend">
+            <tr class="legend">
+                <td rowspan="2" class="legend legend-key IconSuccessEncoded"> </td>
+                <td class="legend">
+                    <b>Supported API</b>
+                </td>
+            </tr>
+            <tr class="legend">
+                <td class="legend">
+                    <i>This API is supported on the target</i>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-7">
+        <table class="table table-condensed legend">
+            <tr class="legend">
+                <td rowspan="2" class="legend legend-key IconErrorEncoded"></td>
+                <td class="legend">
+                    <b>Not supported API</b>
+                </td>
+            </tr>
+            <tr class="legend">
+                <td class="legend">
+                    <i>The API is not supported on the target.  It may, however, be available via NuGet</i>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <table class="table table-condensed legend">
+            <tr class="legend">
+                <td rowspan="2" class="legend legend-key">
+                    <div class="apiinfo legend">
+                        <span class="recommendedchange apiinfo legend">
+                            R
+                        </span>
+                    </div>
+                </td>
+                <td class="legend">
+                    <b>Recommended changes</b>
+                </td>
+            </tr>
+            <tr class="legend">
+                <td class="legend">
+                    <i>These changes help your code be the most portable</i>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-7">
+        <table class="table table-condensed legend">
+            <tr class="legend">
+                <td rowspan="2" class="legend legend-key">
+                    <div class="apiinfo legend">
+                        <span class="sourcecompatibility apiinfo legend">
+                            S
+                        </span>
+                    </div>
+                </td>
+                <td class="legend">
+                    <b>Source compatible</b>
+                </td>
+            </tr>
+            <tr class="legend">
+                <td class="legend">
+                    <i>The API used is not available, but there are equivalents that the compiler will use.</i>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

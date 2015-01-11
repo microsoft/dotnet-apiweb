@@ -1,6 +1,8 @@
 using Microsoft.AspNet.Mvc;
 using Microsoft.Fx.Portability;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetStatus.Controllers
@@ -30,11 +32,34 @@ namespace DotNetStatus.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-
+                Trace.WriteLine(e);
                 return new HttpNotFoundResult();
             }
         }
 
+        [Route("search")]
+        public async Task<ActionResult> Search(string term)
+        {
+            var result = await _service.SearchFxApiAsync(term);
+
+            return Json(result.Response);
+        }
+
+        [Route("validate")]
+        public async Task<ActionResult> Validate(string query)
+        {
+            var result = await _service.SearchFxApiAsync(query);
+
+            var api = result.Response.FirstOrDefault(f => String.Equals(f.FullName, query, StringComparison.Ordinal));
+
+            if (api == null)
+            {
+                return new HttpNotFoundResult() as ActionResult;
+            }
+            else
+            {
+                return Json(api);
+            }
+        }
     }
 }

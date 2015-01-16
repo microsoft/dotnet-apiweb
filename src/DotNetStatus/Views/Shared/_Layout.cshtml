@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+
+    @* This is a required notice that is sent with each of the webpages. For more details, see:
+        http://lcaweb/product/OSS/Pages/Client-JavaScript-and-jQuery-Resources.aspx *@
+
+    <!--
+        Third party scripts or code, linked to, called or referenced from this web site, online
+        service or product, are licensed to you by the third parties that own such code, not by
+        Microsoft, see ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx.
+    -->
+
+    <link rel="icon" href="~/img/dotnet.ico" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/jquery-ui-smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/bootstrap.js"></script>
+    <script src="~/js/site.js"></script>
+
+    @RenderSection("scripts", required: false)
+    <meta name="description" content="Status of the .NET Framework" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Usage Data", "Index", "Usage")</li>
+                    @*<li>@Html.ActionLink("Submission", "Index", "Submission")</li>*@
+                </ul>
+                <div class="navbar-form navbar-right">
+                    <div class="form-group">
+                        @{
+                            var controllerName = "fxapi";
+                            var autocompleteUrl = @Url.Action("search", controllerName);
+                            var validateUrl = @Url.Action("validate", controllerName);
+                        }
+
+                        @Html.TextBox("searchTextBox", null, new { data_autocomplete_url = autocompleteUrl, data_autocomplete_validate_url = validateUrl, @class = "form-control", placeholder = "Search for API", size = 100 })
+                        @using (Html.BeginForm("Index", "fxapi", FormMethod.Get))
+                        {
+                            @Html.Hidden("docId")
+                            <input type="submit" class="hidden" id="searchButton" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - .NET Team</p>
+        </footer>
+    </div>
+</body>
+</html>

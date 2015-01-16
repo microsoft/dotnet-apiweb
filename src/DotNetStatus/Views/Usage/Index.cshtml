@@ -1,0 +1,16 @@
+@model Microsoft.Fx.Portability.ObjectModel.UsageDataCollection
+
+@{
+    ViewBag.Title = "API Platform Availability";
+}
+
+<div class="container-fluid">
+    <div class="jumbotron">
+        <h1>.NET API Usage</h1>
+    </div>
+
+    <div id="usageGrid">
+        @await Html.PartialAsync("_Usage", Model)
+    </div>
+
+</div>

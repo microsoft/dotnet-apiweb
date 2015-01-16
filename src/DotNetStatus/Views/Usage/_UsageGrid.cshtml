@@ -1,0 +1,156 @@
+﻿@model Microsoft.Fx.Portability.ObjectModel.UsageDataCollection
+
+@using Microsoft.Fx.Portability.ObjectModel;
+
+@{
+    var numberInfo = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.Clone() as System.Globalization.NumberFormatInfo;
+    numberInfo.PercentPositivePattern = 1;
+
+    const string UpdateButtonJS = "$('#updateBtn').click()";
+
+    var topSelectionListItems = new SortedSet<int>(new[] { 25, 50, 100, 150, 250, Model.Top })
+            .Select(top => new SelectListItem
+            {
+                Text = top.ToString(),
+                Value = top.ToString(),
+                Selected = Model.Top == top
+            });
+
+    var filters = new[]
+    {
+        new { Filter = UsageDataFilter.HideSupported, Description = "APIs that lack support on some platforms" },
+        new { Filter = UsageDataFilter.ShowAll, Description = "All APIs" }
+    };
+
+    var hideSupportedSelectionListItems = filters
+        .OrderBy(f => f.Description)
+        .Select(f => new SelectListItem { Text = f.Description, Value = f.Filter.ToString(), Selected = Model.Filter == f.Filter });
+}
+
+<fieldset>
+
+    @using (Html.BeginForm())
+    {
+        @Html.Hidden("skip", Model.Skip)
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Customize View</h3>
+                </div>
+                <div class="panel-body">
+                    <div class=".container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="control-label" for="top">Display rows</label>
+                                @Html.DropDownList("top", topSelectionListItems, new { @class = "form-control", onchange = UpdateButtonJS })
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label class="control-label" for="filter">Show</label>
+                                @Html.DropDownList("filter", hideSupportedSelectionListItems, new { @class = "form-control", onchange = UpdateButtonJS })
+                            </div>
+                        </div>
+
+                        <label class="control-label" for="targetList">Targets to display</label>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @foreach (var target in Model.AllTargets.OrderBy(t => t.Identifier))
+                                {
+                                <div id="targetList" class="col-md-4">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="targets" value="@target.ToString()" checked="@Model.Targets.Contains(target)" onchange="@UpdateButtonJS" />@target.Identifier
+                                    </label>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        <input id="updateBtn" type="submit" value="Update" class="btn btn-default hide" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Legend</h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.Partial("_Legend")
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" style="overflow-y: auto">
+                <table class="table table-condensed table-responsive table-bordered table-hover table-striped">
+                    <tr>
+                        <th><span title="Overall rank of usage based on submissions">Rank</span></th>
+                        <th><span title="Percentage of usage across all submissions">Usage</span></th>
+                        <th colspan="3">API</th>
+                        @foreach (var framework in Model.Targets)
+                        {
+                            <th class="centerHeader">@framework.Identifier</th>
+                        }
+                    </tr>
+
+                    @foreach (var item in Model.Usage)
+                    {
+                        var percentageUsed = (float)item.Count / (float)Model.SubmissionCount;
+
+                        <tr>
+                            <td class="no-wrap">@item.Index</td>
+                            <td class="no-wrap">@String.Format(numberInfo, "{0:P0}", percentageUsed)</td>
+                            <td><span class="docId">@Html.ActionLink(@item.Api.Definition.FullName, "Index", "FxApi", new { docId = @item.Api.Definition.DocId }, null)</span></td>
+
+                            @if (!String.IsNullOrWhiteSpace(item.Api.RecommendedChanges))
+                            {
+                                <td class="recommendedchange">
+                                    <a href="#" class="apiinfo popup-marker" rel="popover" data-container="body" data-toggle="popover" data-placement="top" data-content="@item.Api.RecommendedChanges">
+                                        R
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                            @if (!String.IsNullOrWhiteSpace(item.Api.SourceCompatibleChanges))
+                            {
+                                <td class="sourcecompatibility">
+                                    <a href="#" class="apiinfo popup-marker" rel="popover" data-container="body" data-toggle="popover" data-placement="top" data-content="@item.Api.SourceCompatibleChanges">
+                                        S
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                            @foreach (var target in Model.Targets)
+                            {
+                                var isSupported = item.Api.Supported.Contains(target);
+                                var tdClass = isSupported ? "IconSuccessEncoded" : "IconErrorEncoded";
+                                <td class="no-wrap @tdClass"></td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pager">
+                @{
+                    var previousClass = Model.PreviousSkip == -1 ? "disabled='disabled'" : String.Empty;
+                    var nextClass = Model.NextSkip == -1 ? "disabled='disabled'" : String.Empty;
+                }
+
+                <div class="pagination pagination-normal pagination-centered">
+                    <ul>
+                        <li><input type="submit" value="Prev" @previousClass class="btn btn-default" onclick="$('#skip').val(@Model.PreviousSkip)" /></li>
+                        <li><input type="submit" value="Next" @nextClass class="btn btn-default" onclick="$('#skip').val(@Model.NextSkip)" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</fieldset>

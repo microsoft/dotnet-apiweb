@@ -1,0 +1,42 @@
+﻿@using Microsoft.Fx.Portability;
+@using Microsoft.Fx.Portability.ObjectModel;
+
+@{
+    ViewBag.Title = "Find";
+}
+
+<div class="container">
+    <div class="jumbotron">
+        <h2>Please enter a submission id</h2>
+    </div>
+    <div class="container">
+        @if (Model is AnalyzeResponse)
+        {
+            var submissionId = (Model as AnalyzeResponse).SubmissionId;
+
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                No submission was found that matches '@submissionId'.
+            </div>
+        }
+        else if (Model is PortabilityAnalyzerException)
+        {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <b>Unknown error:</b>
+                There was a problem searching for your submission.  Please try again.
+            </div>
+        }
+
+        <div class="row">
+            <form action="@Url.Action("Find", "Submission")" method="get" role="form">
+                <div class="form-group">
+                    <label for="id">Submission Id:</label>
+                    <input type="text" class="form-control" name="id" id="id" placeholder="Enter submission id">
+                </div>
+
+                <input type="submit" value="Find" class="btn btn-default" />
+            </form>
+        </div>
+    </div>
+</div>

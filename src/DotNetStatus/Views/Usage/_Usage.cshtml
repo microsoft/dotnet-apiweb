@@ -1,0 +1,10 @@
+﻿@model Microsoft.Fx.Portability.ObjectModel.UsageDataCollection
+
+@if (Model == null)
+{
+    @Html.Partial("_Error")
+}
+else
+{
+    @Html.Partial("_UsageGrid", Model)
+}

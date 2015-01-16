@@ -1,0 +1,53 @@
+@model Microsoft.Fx.Portability.ApiInformation
+@using DotNetStatus
+
+@{
+    ViewBag.Title = @Model.Definition.DocId;
+}
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>@Model.Definition.DocId</h1>
+            </div>
+        </div>
+    </div>
+
+    @if (!String.IsNullOrEmpty(Model.RecommendedChanges))
+    {
+        <div class="alert alert-info" role="alert">
+            <b>Recommended changes:</b>
+            @Model.RecommendedChanges
+        </div>
+    }
+
+    <h3>Supported on:</h3>
+    <ul class="list-group">
+        @foreach (var target in Model.Supported.GroupBy(s => s.Identifier))
+        {
+            <li class="list-group-item">
+                @foreach (var version in target.OrderByDescending(t => t.Version))
+                {
+                    <span class="badge">@version.Version</span>
+                }
+                @target.Key
+            </li>
+        }
+    </ul>
+
+    @if (Model.AdditionalInformation.Any())
+    {
+        <h3>Additional information:</h3>
+        foreach (var additional in Model.AdditionalInformation)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@additional.Title</h3>
+                </div>
+            @*<div class="panel-body">@Html.Markdown(additional.Html)</div>*@
+                <div class="panel-body">@additional.Html</div>
+            </div>
+        }
+    }
+</div>

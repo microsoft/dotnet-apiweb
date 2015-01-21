@@ -1,4 +1,7 @@
-﻿function InitializePopovers() {
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+function InitializePopovers() {
     $(".popup-marker").popover();
     $(".popup-marker").on('click', function (e) { e.preventDefault(); return true; });
 

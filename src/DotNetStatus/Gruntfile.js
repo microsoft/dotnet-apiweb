@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
 /// <binding BeforeBuild='bower, concat' ProjectOpened='bower:install' />
 /*
 This file in the main entry point for defining grunt tasks and using grunt plugins.

@@ -1,16 +1,9 @@
 {
     "webroot": "wwwroot",
     "version": "1.0.0-*",
-    "exclude": [
-        "wwwroot"
-    ],
-    "packExclude": [
-        "**.kproj",
-        "**.user",
-        "**.vspscc"
-    ],
     "dependencies": {
         "Microsoft.AspNet.Server.IIS": "1.0.0-beta1",
+        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta1",
         "Microsoft.AspNet.Mvc": "6.0.0-beta1",
         "Microsoft.AspNet.Mvc.Razor": "6.0.0-beta1",
         "Microsoft.Framework.Logging": "1.0.0-beta1",
@@ -21,7 +14,28 @@
         "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta1",
         "Microsoft.Fx.Portability": "1.0.0"
     },
+    "commands": {
+        /* Change the port number when you are self hosting this application */
+        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
+    },
     "frameworks": {
+        "aspnet50": { },
         "aspnetcore50": { }
+    },
+    "exclude": [
+        "wwwroot",
+        "node_modules",
+        "bower_components"
+    ],
+    "packExclude": [
+        "node_modules",
+        "bower_components",
+        "**.kproj",
+        "**.user",
+        "**.vspscc"
+    ],
+    "scripts": {
+        "postrestore": [ "npm install" ],
+        "prepare": [ "grunt bower:install" ]
     }
 }

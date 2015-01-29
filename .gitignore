@@ -21,6 +21,7 @@ rcf
 *.sln.ide
 *.metaproj*
 *.swp
+.vs
 /src/DotNetStatus/bower_components
 /src/DotNetStatus/node_modules
 /src/DotNetStatus/wwwroot

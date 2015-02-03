@@ -1,4 +1,4 @@
-# .NET Status Website
+# .NET Portability Analyzer Website
 
 This repository contains the source code for the [.NET Portability website](http://dotnetstatus.azurewebsites.net/).
 
@@ -12,14 +12,12 @@ Today, the repository contains the following components:
     1. [Visual Studio 2015](http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx)
     2. [K Version Manager (KVM)](https://github.com/aspnet/home#install-the-k-version-manager-kvm)
     3. [K Runtime (KRE)](https://github.com/aspnet/home#install-the-k-runtime-environment-kre)
-2. Add this feed to your NuGet package sources: https://www.myget.org/F/aspnetvnext/api/v2
-    * Wiki: [Configuring feeds used by KPM to Restore Packages](https://github.com/aspnet/Home/wiki/Configuring-the-feed-used-by-kpm-to-restore-packages)
 
 ### Building/Running from Commandline
 
 1. Go to `src\DotNetStatus`
-2. Run command `kpm restore`
-3. Run command `k web`
+2. Run command: `kpm restore`
+3. Run command: `k web`
 4. The website should be started on `http://localhost:5000`
 
 ### Building/Running from Visual Studio
@@ -50,7 +48,7 @@ We're re-using the same contributing approach as .NET Core. You can check out th
     * [Contributing Guide][Contributing Guide]
     * [Developer Guide]
 
-You are also encouraged to start a discussion on the .NET Foundation forums or by filing an issue.
+You are also encouraged to start a discussion on the .NET Foundation forums!
 
 [Contributing Guide]: https://github.com/dotnet/corefx/wiki/Contributing
 [Developer Guide]: https://github.com/dotnet/corefx/wiki/Developer-Guide

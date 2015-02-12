@@ -22,7 +22,7 @@ namespace DotNetStatus.Controllers
         [Route("/fxapi")]
         public async Task<ActionResult> Index(string docId)
         {
-            if (String.IsNullOrEmpty(docId))
+            if (string.IsNullOrEmpty(docId))
             {
                 return new HttpNotFoundResult();
             }
@@ -53,7 +53,7 @@ namespace DotNetStatus.Controllers
         {
             var result = await _service.SearchFxApiAsync(query);
 
-            var api = result.Response.FirstOrDefault(f => String.Equals(f.FullName, query, StringComparison.Ordinal));
+            var api = result.Response.FirstOrDefault(f => string.Equals(f.FullName, query, StringComparison.Ordinal));
 
             if (api == null)
             {

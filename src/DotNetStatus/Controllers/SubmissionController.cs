@@ -21,7 +21,7 @@ namespace DotNetStatus.Controllers
         [Route("submission/{id?}")]
         public async Task<ActionResult> Index(string id)
         {
-            if (String.IsNullOrWhiteSpace(id))
+            if (string.IsNullOrWhiteSpace(id))
             {
                 return View((AnalyzeResponse)null);
             }

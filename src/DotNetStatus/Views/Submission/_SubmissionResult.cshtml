@@ -10,7 +10,7 @@
         @{
     var count = 0;
     var panelGroupName = "assemblyPanelGroup";
-    var grouped = Model.MissingDependencies.GroupBy(a => a.TypeDocId).OrderBy(a => a.Key).Where(a => !String.IsNullOrEmpty(a.Key));
+    var grouped = Model.MissingDependencies.GroupBy(a => a.TypeDocId).OrderBy(a => a.Key).Where(a => !string.IsNullOrEmpty(a.Key));
         }
 
         @if (grouped.Any())
@@ -18,7 +18,7 @@
             <div class="panel-group" id="@panelGroupName">
                 @foreach (var item in grouped)
                 {
-                    var panelName = String.Format("assemblyPanel{0}", count++);
+                    var panelName = string.Format("assemblyPanel{0}", count++);
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -67,7 +67,7 @@
         {
             <div class="panel-group" id="@panelGroupName">
                 @{
-            var panelName = String.Format("assemblyPanel{0}", count++);
+            var panelName = string.Format("assemblyPanel{0}", count++);
                 }
 
                 <div class="panel panel-default">

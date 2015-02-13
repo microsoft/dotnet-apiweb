@@ -60,7 +60,7 @@ namespace DotNetStatus.vNext
         private object CreateService(IServiceProvider arg)
         {
             string endpoint = null;
-            if(!Configuration.TryGet("ApiPortService", out endpoint))
+            if (!Configuration.TryGet("ApiPortService", out endpoint))
             {
                 throw new ArgumentNullException("ApiPortService", "Need to specify ApiPortService in config.json");
             }

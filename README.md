@@ -17,6 +17,13 @@ Today, the repository contains the following components:
 
 1. Go to `src\DotNetStatus`
 2. Run command: `kpm restore`
+   * There are a couple of problems you may encounter
+   * __Problem__: Error: ENOENT, stat 'C:\Users\CurrentUser\AppData\Roaming\npm'
+      1. Execute: `mkdir %APPDATA%\npm` (Command Prompt) or `mkdir $env:AppData\npm` (Powershell)
+      2. Execute: `kpm restore`
+   * __Problem__: 'grunt' is not recognized as an internal or external command
+      1. Execute: `npm install -g grunt-cli`
+      2. Execute: `kpm restore`
 3. Run command: `k web`
 4. The website should be started on `http://localhost:5000`
 

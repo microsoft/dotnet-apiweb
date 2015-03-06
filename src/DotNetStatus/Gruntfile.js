@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         },
     });
 
-    grunt.registerTask("default", ["bower:install"]);
+    grunt.registerTask("default", ["bower:install", "concat"]);
 
     grunt.loadNpmTasks("grunt-bower-task");
     grunt.loadNpmTasks("grunt-contrib-concat");

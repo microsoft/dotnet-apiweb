@@ -57,7 +57,7 @@ namespace DotNetStatus.vNext
             services.AddMvc();
         }
 
-        private object CreateService(IServiceProvider arg)
+        private IApiPortService CreateService(IServiceProvider arg)
         {
             string endpoint = null;
             if (!Configuration.TryGet("ApiPortService", out endpoint))

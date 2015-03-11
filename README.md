@@ -9,7 +9,7 @@ Today, the repository contains the following components:
 ## Using this Repository
 
 1. Install the following:
-    1. [Visual Studio 2015](http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx)
+    1. [Visual Studio 2015 CTP6](https://www.visualstudio.com/downloads/visual-studio-2015-ctp-vs)
     2. [K Version Manager (KVM)](https://github.com/aspnet/home#install-the-k-version-manager-kvm)
     3. [K Runtime (KRE)](https://github.com/aspnet/home#install-the-k-runtime-environment-kre)
 

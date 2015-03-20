@@ -17,12 +17,12 @@ module.exports = function (grunt) {
 
         concat: {
             js: {
-                src: "Assets/js/*.js",
+                src: "assets/js/*.js",
                 dest: "wwwroot/js/site.js"
             },
 
             css: {
-                src: "Assets/css/*.css",
+                src: "assets/css/*.css",
                 dest: "wwwroot/css/site.css"
             }
         },

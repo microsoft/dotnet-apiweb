@@ -22,6 +22,6 @@ rcf
 *.metaproj*
 *.swp
 .vs
-/src/DotNetStatus/bower_components
-/src/DotNetStatus/node_modules
+bower_components
+node_modules
 /src/DotNetStatus/wwwroot

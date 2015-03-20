@@ -18,13 +18,6 @@ Today, the repository contains the following components:
 #### Building/Running from Commandline
 1. Go to `src\DotNetStatus`
 2. Run command: `kpm restore`
-   * There are a couple of problems you may encounter
-   * __Problem__: Error: ENOENT, stat 'C:\Users\CurrentUser\AppData\Roaming\npm'
-      1. Execute: `mkdir %APPDATA%\npm` (Command Prompt) or `mkdir $env:AppData\npm` (Powershell)
-      2. Execute: `kpm restore`
-   * __Problem__: 'grunt' is not recognized as an internal or external command
-      1. Execute: `npm install -g grunt-cli`
-      2. Execute: `kpm restore`
 3. Run command: `k web`
 4. The website should be started on `http://localhost:5000`
 
@@ -39,7 +32,16 @@ Today, the repository contains the following components:
    These can be found under the `Project Properties -> Debug` or by clicking the drop-down menu on the Debug button in your main toolbar.
 4. You can also change the Target KRE Version (ex. so that it runs on CoreCLR) by going to `Project Properties -> Application -> Target KRE Version`
 
+#### Troubleshooting
+1. `kpm restore` outputs: Error: ENOENT, stat 'C:\Users\CurrentUser\AppData\Roaming\npm'
+   * Execute: `mkdir %APPDATA%\npm` (Command Prompt) or `mkdir $env:AppData\npm` (Powershell)
+   * Execute: `kpm restore`
+2. `kpm restore` outputs: 'grunt' is not recognized as an internal or external command
+   * Execute: `npm install -g grunt-cli`
+   * Execute: `kpm restore`
+
 ### Linux
+
 #### Building/Running on Ubuntu
 1. Go to `src/DotNetStatus`
 2. Install npm

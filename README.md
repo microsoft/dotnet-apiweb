@@ -13,8 +13,9 @@ Today, the repository contains the following components:
     2. [K Version Manager (KVM)](https://github.com/aspnet/home#install-the-k-version-manager-kvm)
     3. [K Runtime (KRE)](https://github.com/aspnet/home#install-the-k-runtime-environment-kre)
 
-### Building/Running from Commandline
+### Windows
 
+#### Building/Running from Commandline
 1. Go to `src\DotNetStatus`
 2. Run command: `kpm restore`
    * There are a couple of problems you may encounter
@@ -27,8 +28,7 @@ Today, the repository contains the following components:
 3. Run command: `k web`
 4. The website should be started on `http://localhost:5000`
 
-### Building/Running from Visual Studio
-
+#### Building/Running from Visual Studio
 1. Open `DotNetStatus.sln`
 2. Check that all the Dependencies have loaded (like NPM and Bower) and packages were restored
    * Check the `Output window -> Package Manager Log` to make sure that everything was successful
@@ -38,6 +38,36 @@ Today, the repository contains the following components:
 
    These can be found under the `Project Properties -> Debug` or by clicking the drop-down menu on the Debug button in your main toolbar.
 4. You can also change the Target KRE Version (ex. so that it runs on CoreCLR) by going to `Project Properties -> Application -> Target KRE Version`
+
+### Linux
+#### Building/Running on Ubuntu
+1. Go to `src/DotNetStatus`
+2. Install npm
+   * `sudo apt-get update` 
+   * `sudo apt-get install nodejs`
+   * `sudo apt-get install npm`
+3. Install Grunt globally
+   * `sudo npm install -g grunt-cli`
+4. Build [libuv](https://github.com/libuv/libuv)
+   * `wget http://dist.libuv.org/dist/v1.0.0-rc1/libuv-v1.0.0-rc1.tar.gz`
+   * `tar -xvf libuv-v1.0.0-rc1.tar.gz`
+   * `cd libuv-v1.0.0-rc1/`
+   * `./gyp_uv.py -f make -Duv_library=shared_library`
+   * `make -C out`
+   * `sudo cp out/Debug/lib.target/libuv.so /usr/lib/libuv.so.1.0.0-rc1`
+   * `sudo ln -s libuv.so.1.0.0-rc1 /usr/lib/libuv.so.1`
+
+    The instructions are from Punit Ganshani's [blog](http://www.ganshani.com/blog/2014/12/shell-script-to-setup-net-on-linux/). He created a setup script, too. [Shell Script to Setup .NET on Linux](https://github.com/punitganshani/ganshani/blob/master/Samples/ASPNET5.0_SampleForLinux/SetupDotNetOnLinux.sh).
+5. `kpm restore`
+6. `cd src/DotNetStatus`
+7. `grunt`
+8. Run the site: `k kestrel`
+
+#### Troubleshooting
+1. `kpm restore` cannot find Microsoft.Fx.Portability
+   * Download the NuGet directly from [myget.org](https://www.myget.org/gallery/dotnet-apiport) and unpack it manually
+   * Execute: `wget https://www.myget.org/F/dotnet-apiport/api/v2/package/Microsoft.Fx.Portability/1.0.0-alpha-15031101`
+   * Execute: `mkdir ~/.k/packages/Microsoft.Fx.Portability && unzip 1.0.0-alpha-15031101 -d ~/.k/packages/Microsoft.Fx.Portability/1.0.0-alpha-15031101`
 
 ## How to Engage, Contribute and Provide Feedback
 

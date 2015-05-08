@@ -25,3 +25,4 @@ rcf
 bower_components
 node_modules
 /src/DotNetStatus/wwwroot
+project.lock.json

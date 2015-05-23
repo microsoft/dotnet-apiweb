@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DotNetStatus", "src\DotNetStatus\DotNetStatus.kproj", "{156E5AB6-C13D-4D12-AD10-2AFA192DB3B5}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DotNetStatus", "src\DotNetStatus\DotNetStatus.xproj", "{156E5AB6-C13D-4D12-AD10-2AFA192DB3B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31984862-8C60-49B8-862D-2B001B47EA48}"
 	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection

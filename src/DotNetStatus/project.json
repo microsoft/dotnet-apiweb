@@ -1,43 +1,43 @@
 {
-    "webroot": "wwwroot",
-    "version": "1.0.0-*",
-    "dependencies": {
-        "Kestrel": "1.0.0-beta4",
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta4",
-        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4",
-        "Microsoft.AspNet.Mvc": "6.0.0-beta4",
-        "Microsoft.AspNet.Mvc.Razor": "6.0.0-beta4",
-        "Microsoft.Framework.Logging": "1.0.0-beta4",
-        "Microsoft.Framework.Logging.Console": "1.0.0-beta4",
-        "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta4",
-        "Microsoft.AspNet.Diagnostics": "1.0.0-beta4",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-beta4",
-        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4",
-        "Microsoft.Fx.Portability": "1.0.0-*"
-    },
-    "commands": {
-        /* Change the port number when you are self hosting this application */
-        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
-        "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5004"
-    },
-    "frameworks": {
-        "dnx451": { },
-        "dnxcore50": { }
-    },
-    "exclude": [
-        "wwwroot",
-        "node_modules",
-        "bower_components"
-    ],
-    "packExclude": [
-        "node_modules",
-        "bower_components",
-        "**.xproj",
-        "**.user",
-        "**.vspscc"
-    ],
-    "scripts": {
-        "postrestore": [ "npm install" ],
-        "prepare": [ "grunt bower:install" ]
-    }
+  "webroot": "wwwroot",
+  "version": "1.0.0-*",
+  "dependencies": {
+    "Kestrel": "1.0.0-beta5",
+    "Microsoft.AspNet.Server.IIS": "1.0.0-beta5",
+    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
+    "Microsoft.AspNet.Mvc": "6.0.0-beta5",
+    "Microsoft.AspNet.Mvc.Razor": "6.0.0-beta5",
+    "Microsoft.Framework.Logging": "1.0.0-beta5",
+    "Microsoft.Framework.Logging.Console": "1.0.0-beta5",
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta5",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-beta5",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-beta5",
+    "Microsoft.Framework.Configuration.Json": "1.0.0-beta5",
+    "Microsoft.Fx.Portability": "1.0.0-*"
+  },
+  "commands": {
+    /* Change the port number when you are self hosting this application */
+    "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
+    "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5004"
+  },
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": { }
+  },
+  "exclude": [
+    "wwwroot",
+    "node_modules",
+    "bower_components"
+  ],
+  "packExclude": [
+    "node_modules",
+    "bower_components",
+    "**.xproj",
+    "**.user",
+    "**.vspscc"
+  ],
+  "scripts": {
+    "postrestore": [ "npm install" ],
+    "prepare": [ "grunt bower:install" ]
+  }
 }

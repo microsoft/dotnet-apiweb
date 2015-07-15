@@ -4,10 +4,10 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using Microsoft.Framework.Logging.Console;
+using Microsoft.Framework.Runtime;
 using Microsoft.Fx.Portability;
 using System;
 
@@ -15,21 +15,24 @@ namespace DotNetStatus.vNext
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        private readonly IConfiguration _configuration;
+
+        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            Configuration = new Configuration()
+            // Setup configuration sources.
+            var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
                 .AddJsonFile("config.json")
                 .AddEnvironmentVariables();
-        }
 
-        public IConfiguration Configuration { get; }
+            _configuration = builder.Build();
+        }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
 
             // Add the following to the request pipeline only in development environment.
-            if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
+            if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
                 app.UseErrorPage(ErrorPageOptions.ShowAll);
@@ -60,7 +63,7 @@ namespace DotNetStatus.vNext
         private IApiPortService CreateService(IServiceProvider arg)
         {
             string endpoint = null;
-            if (!Configuration.TryGet("ApiPortService", out endpoint))
+            if (!_configuration.TryGet("ApiPortService", out endpoint))
             {
                 throw new ArgumentNullException("ApiPortService", "Need to specify ApiPortService in config.json");
             }

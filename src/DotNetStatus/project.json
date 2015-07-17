@@ -37,7 +37,6 @@
     "**.vspscc"
   ],
   "scripts": {
-    "postrestore": [ "npm install" ],
-    "prepare": [ "grunt bower:install" ]
+    "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ]
   }
 }

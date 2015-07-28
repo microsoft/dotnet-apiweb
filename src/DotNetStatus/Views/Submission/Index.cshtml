@@ -22,13 +22,11 @@ else if (m != null && Model.Targets == null)
 }
 else if (m != null)
 {
-    <div class="container">
-        <div class="jumbotron">
-            <h2>View result for @m.SubmissionId</h2>
-        </div>
-        <div class="container">
-            @Html.Partial("_SubmissionResult", m)
-        </div>
+    <div class="jumbotron">
+        <h2>View result for @m.SubmissionId</h2>
+    </div>
+    <div class="container-fluid">
+        @Html.Partial("_SubmissionResult", m)
     </div>
 }
 else

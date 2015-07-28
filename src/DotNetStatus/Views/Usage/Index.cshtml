@@ -8,13 +8,10 @@
     ViewBag.Title = "API Platform Availability";
 }
 
-<div class="container-fluid">
-    <div class="jumbotron">
-        <h1>.NET API Usage</h1>
-    </div>
+<div class="jumbotron">
+    <h1>.NET API Usage</h1>
+</div>
 
-    <div id="usageGrid">
-        @await Html.PartialAsync("_Usage", Model)
-    </div>
-
+<div id="usageGrid" class="container-fluid">
+    @await Html.PartialAsync("_Usage", Model)
 </div>

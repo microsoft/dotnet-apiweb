@@ -4,6 +4,7 @@
 using Microsoft.AspNet.Mvc;
 using Microsoft.Fx.Portability;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace DotNetStatus.Controllers
         [Route("search")]
         public async Task<ActionResult> Search(string term)
         {
-            var result = await _service.SearchFxApiAsync(term);
+            var result = await SearchAsync(term);
 
             return Json(result.Response);
         }
@@ -51,7 +52,7 @@ namespace DotNetStatus.Controllers
         [Route("validate")]
         public async Task<ActionResult> Validate(string query)
         {
-            var result = await _service.SearchFxApiAsync(query);
+            var result = await SearchAsync(query);
 
             var api = result.Response.FirstOrDefault(f => string.Equals(f.FullName, query, StringComparison.Ordinal));
 
@@ -63,6 +64,11 @@ namespace DotNetStatus.Controllers
             {
                 return Json(api);
             }
+        }
+
+        private Task<ServiceResponse<IReadOnlyCollection<ApiDefinition>>> SearchAsync(string query)
+        {
+            return _service.SearchFxApiAsync($"\"{query}\"");
         }
     }
 }

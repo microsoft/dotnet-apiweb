@@ -3,69 +3,181 @@
 *@
 
 @using Microsoft.Fx.Portability;
+@using Microsoft.Fx.Portability.ObjectModel;
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Converters;
+@using System.Collections.Generic;
 @using System.Linq;
+@using System.Text;
+
 @model IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<BreakingChangeAnalyzerStatus, int>>>>
 
 @{
+    //Get the enumerables from the model that have more then one item
     var multipleValueEnumerables = Model.Where(o => o.Value.Count() > 1);
+
+    //Get the enumerables from the model that have only one item
     var singleValueEnumerables = Model.Where(o => o.Value.Count() == 1);
+
+    //get the ChartJS chart information
+    var uniqueAnalyzerStatusLabels = GetUniqueAnalyzerStatusLabels(Model);
+    var dataSets = @Html.Raw(JsonConvert.SerializeObject(GetChartDataItems(uniqueAnalyzerStatusLabels, Model), new StringEnumConverter()));
+    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.Select(v => v.Key), new StringEnumConverter()));
 }
 
-<div style="width:40%">
-    <div class="container-fluid">
-        @foreach (var summary in multipleValueEnumerables)
-        {
-            <h4>@summary.Key.ToString()</h4>
-            <table class="table table-responsive table-bordered">
-                <thead>
-                    <tr class="status-table-header">
-                        @foreach (var columnHeader in summary.Value)
-                        {
-                            <th class="cellAlignment">
-                                @Html.Label(columnHeader.Key.ToString())
-                            </th>
-                        }
-                        <th class="cellAlignment">Total</th>
-                    </tr>
-                </thead>
-                <tr>
-                    @foreach (var item in summary.Value)
-                {
-                        <td class="cellAlignment">
-                            @Html.DisplayFor(modelItem => item.Value)
-                        </td>
+
+<div class="container-fluid table-responsive">
+    <table class="table">
+        <tr>
+            <td style="width:50%">
+                <div>
+                    @foreach (var summary in multipleValueEnumerables)
+                    {
+                        <h4>@summary.Key.ToString()</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="status-table-header">
+                                    @foreach (var columnHeader in summary.Value)
+                                    {
+                                        <th>
+                                            @Html.Label(columnHeader.Key.ToString())
+                                        </th>
+                                    }
+                                    <th>
+                                        Total
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    @foreach (var item in summary.Value)
+                                    {
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Value)
+                                        </td>
+                                    }
+                                    <td>
+                                        @summary.Value.Sum(v => v.Value)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     }
-                    <td class="cellAlignment">
-                        @summary.Value.Sum(v => v.Value)
-                    </td>
-                </tr>
-            </table>
-        }
-    </div>
-    <div class="container-fluid">
-        <h4>Other</h4>
-        <table class="table table-responsive table-bordered">
-            <thead>
-                <tr class="status-table-header">
-                    <th>
-                        Name
-                    </th>
-                    <th class="cellAlignment">
-                        value
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var summary in singleValueEnumerables)
-                {
-                    <tr>
-                        <td>@summary.Key.ToString()</td>
-                        <td class="cellAlignment">
-                            @summary.Value.First().Value
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </div>
+                <div>
+                    <h4>Other</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="status-table-header">
+                                <th>
+                                    Name
+                                </th>
+                                <th class="cellAlignment">
+                                    value
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var summary in singleValueEnumerables)
+                            {
+                                <tr>
+                                    <td>@summary.Key.ToString()</td>
+                                    <td class="cellAlignment">
+                                        @summary.Value.First().Value
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+            <td>
+                <canvas id="stackedBarChart"></canvas>
+                <span id="chart-legend" style="text-align:center"></span>
+            </td>
+        </tr>
+    </table>
 </div>
+
+<script src="~/lib/chartjs/chart.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var ctx = document.getElementById("stackedBarChart").getContext("2d");
+        window.myBar = new Chart(ctx, GetStackedBarChartConfig(@dataSets, @labels));
+        $("#chart-legend").html(@Html.Raw(CreateLegend()));
+    });
+</script>
+
+@functions {
+    /// <summary>
+    /// Returns a list of chart items
+    ///</summary>
+    /// <param name="analyzerStatusLabels">List of BreakingChangeAnalyzerStatus</param>
+    /// <param name="rollUp">PortabilityTools roll up summary</param>
+    private IEnumerable<ChartJSStackedBarDataItem> GetChartDataItems(
+        IEnumerable<BreakingChangeAnalyzerStatus> analyzerStatusLabels,
+        IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<BreakingChangeAnalyzerStatus, int>>>> rollUp)
+    {
+        var result = new List<ChartJSStackedBarDataItem>();
+
+        foreach (var uniqueAnalyzerStatusLabel in analyzerStatusLabels)
+        {
+            result.Add(new ChartJSStackedBarDataItem
+            {
+                label = uniqueAnalyzerStatusLabel,
+                backgroundColor = BreakingChangeAnalyzerStatusChartColors.GetColor(uniqueAnalyzerStatusLabel),
+                data = GetAnalyzerStatusLabelDataValues(uniqueAnalyzerStatusLabel, rollUp)
+            });
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Returns a list of unique BreakingChangeAnalyzerStatus from the rollUp summary
+    /// </summary>
+    /// <param name="rollUp">PortabilityTools roll up summary</param>
+    private IEnumerable<BreakingChangeAnalyzerStatus> GetUniqueAnalyzerStatusLabels(
+        IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<BreakingChangeAnalyzerStatus, int>>>> rollUp)
+    {
+        return rollUp.SelectMany(s => s.Value).Select(k => k.Key).Distinct().ToList();
+    }
+
+    /// <summary>
+    /// Returns a list of chart items
+    /// </summary>
+    /// <param name="analyzerStatusLabel">BreakingChangeAnalyzerStatus</param>
+    /// <param name="rollUp">PortabilityTools roll up summary</param>
+    private int[] GetAnalyzerStatusLabelDataValues(
+        BreakingChangeAnalyzerStatus analyzerStatusLabel,
+        IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<BreakingChangeAnalyzerStatus, int>>>> rollUp)
+    {
+        var result = new List<int>();
+
+        foreach (var rollUpItem in rollUp)
+        {
+            var item = rollUpItem.Value.Where(b => b.Key.Equals(analyzerStatusLabel));
+            result.Add((item.Count() != 0) ? item.First().Value : 0);
+        }
+
+        return result.ToArray();
+    }
+
+    private string CreateLegend()
+    {
+        //Create string builder with starting div
+        StringBuilder result = new StringBuilder("\"<div>");
+
+        //add legend items
+        foreach (var uniqueAnalyzerStatusLabel in GetUniqueAnalyzerStatusLabels(Model))
+        {
+            result.Append($"<span class='status-chart-legenditem' style='border-color:{BreakingChangeAnalyzerStatusChartColors.GetColor(uniqueAnalyzerStatusLabel)}'>{uniqueAnalyzerStatusLabel.ToString()}</span>");
+        }
+
+        //add ending div
+        result.Append("</div>\"");
+
+        return result.ToString();
+    }
+}

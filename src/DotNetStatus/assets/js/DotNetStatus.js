@@ -108,6 +108,57 @@ function tableSort(thead, tbody, colToSortOn, isColumnANumber) {
     }
 }
 
+/// <summary>Returns a ChartJS pie chart config</summary>
+/// <param name="data">The values representing the data</param>
+/// <param name="labels">The labels of the values</param>
+/// <param name="colors">The colors to be used for each data value</param>
+function GetPieChartConfig(data, labels, colors) {
+    var config = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: data,
+                backgroundColor: colors
+            }],
+            labels: labels
+        },
+        options: {
+            responsive: true,
+            showTooltips: true
+        }
+    };
+
+    return config;
+}
+
+/// <summary>Returns a ChartJS stacked bar chart config</summary>
+/// <param name="dataSets">The chart datasets data values</param>
+/// <param name="labels">The labels of the datasets</param>
+function GetStackedBarChartConfig(dataSets, labels) {
+    var barChartData = {
+        labels: labels,
+        datasets: dataSets
+    };
+
+    var chartconfig = {
+        type: 'bar',
+        data: barChartData,
+        options: {
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        }
+    };
+
+    return chartconfig;
+}
+
 /// <summary>Refreshes the contentPlaceHolder HTMLElement with new data from the data service</summary>
 /// <param name="contentPlaceHolder">The HTMLelement object to replace the content of</param>
 /// <param name="route">The route to call on the data service</param>
@@ -119,3 +170,4 @@ function refreshChart(contentPlaceHolder, route) {
         contentPlaceHolder.fadeIn(1000);
     });
 }
+

@@ -48,7 +48,8 @@ gulp.task("copy", function () {
         "bootstrap": "bootstrap/dist/**/*.{js,map,css,ttf,svg,woff,eot}",
         "jquery": "jquery/dist/jquery*.{js,map}",
         "jquery-ui": "jquery-ui/jquery-ui.js",
-        "jquery-ui-smoothness": "jquery-ui-smoothness/jquery-ui.css"
+        "jquery-ui-smoothness": "jquery-ui-smoothness/jquery-ui.css",
+        "chartjs" : "chartjs/Chart*"
     };
 
     for (var module in bower) {

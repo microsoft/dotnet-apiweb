@@ -1,0 +1,24 @@
+﻿@*  Copyright (c) Microsoft. All rights reserved.
+    Licensed under the MIT license. See LICENSE file in the project root for full license information.
+*@
+
+@model IEnumerable<SelectListItem>
+<head>
+    <script>
+        $(document).ready(function () {
+            RefreshChart($('#ComponentPlaceHolder'), $('#AvailableChoices').val());
+
+            $("#AvailableChoices").change(function () {
+                RefreshChart($('#ComponentPlaceHolder'), $('#AvailableChoices').val());
+            });
+        });
+    </script>
+</head>
+<div class="jumbotron">
+    <h1>.NET API Data</h1>
+    @Html.Label("Available Charts:")
+    @Html.DropDownList("AvailableChoices", Model)
+</div>
+
+<div id="ComponentPlaceHolder" class="container-fluid">
+</div>

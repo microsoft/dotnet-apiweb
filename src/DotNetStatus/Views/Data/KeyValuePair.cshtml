@@ -1,0 +1,38 @@
+﻿@*  Copyright (c) Microsoft. All rights reserved.
+    Licensed under the MIT license. See LICENSE file in the project root for full license information.
+*@
+
+@using Microsoft.Fx.Portability
+@model IEnumerable<KeyValuePair<BreakingChangeAnalyzerStatus, int>>
+
+<div style="width:40%">
+    <table class="table table-responsive table-bordered">
+        <thead>
+            <tr class="status-table-header">
+                <th>
+                    Name
+                </th>
+                <th>
+                    Value
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Key)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+            </tr>
+        }
+
+        <tr class="status-table-footer">
+            <td>Total</td>
+            <td>@Model.Sum(v => v.Value)</td>
+        </tr>
+    </table>
+</div>

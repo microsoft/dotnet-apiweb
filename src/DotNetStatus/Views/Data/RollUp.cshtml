@@ -1,0 +1,71 @@
+﻿@*  Copyright (c) Microsoft. All rights reserved.
+    Licensed under the MIT license. See LICENSE file in the project root for full license information.
+*@
+
+@using Microsoft.Fx.Portability;
+@using System.Linq;
+@model IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<BreakingChangeAnalyzerStatus, int>>>>
+
+@{
+    var multipleValueEnumerables = Model.Where(o => o.Value.Count() > 1);
+    var singleValueEnumerables = Model.Where(o => o.Value.Count() == 1);
+}
+
+<div style="width:40%">
+    <div class="container-fluid">
+        @foreach (var summary in multipleValueEnumerables)
+        {
+            <h4>@summary.Key.ToString()</h4>
+            <table class="table table-responsive table-bordered">
+                <thead>
+                    <tr class="status-table-header">
+                        @foreach (var columnHeader in summary.Value)
+                        {
+                            <th class="cellAlignment">
+                                @Html.Label(columnHeader.Key.ToString())
+                            </th>
+                        }
+                        <th class="cellAlignment">Total</th>
+                    </tr>
+                </thead>
+                <tr>
+                    @foreach (var item in summary.Value)
+                {
+                        <td class="cellAlignment">
+                            @Html.DisplayFor(modelItem => item.Value)
+                        </td>
+                    }
+                    <td class="cellAlignment">
+                        @summary.Value.Sum(v => v.Value)
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+    <div class="container-fluid">
+        <h4>Other</h4>
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr class="status-table-header">
+                    <th>
+                        Name
+                    </th>
+                    <th class="cellAlignment">
+                        value
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var summary in singleValueEnumerables)
+                {
+                    <tr>
+                        <td>@summary.Key.ToString()</td>
+                        <td class="cellAlignment">
+                            @summary.Value.First().Value
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

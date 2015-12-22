@@ -6,27 +6,28 @@
 @model IEnumerable<DiagnosticAnalyzerInfo>
 
 <table class="table table-responsive table-bordered table-striped">
-    <thead>
+    <thead id="diagnosticAnalyzersTableHeader">
         <tr class="status-table-header">
             <th>
-                ID
+                <a href="javascript:tableSort($('#diagnosticAnalyzersTableHeader'), $('#diagnosticAnalyzersTableBody'), 0, true)">Id</a>
             </th>
             <th>
-                Name
+                <a href="javascript:tableSort($('#diagnosticAnalyzersTableHeader'), $('#diagnosticAnalyzersTableBody'), 1, false)">Name</a>
             </th>
         </tr>
     </thead>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AnalyzerName)
-            </td>
-        </tr>
-    }
+    <tbody id="diagnosticAnalyzersTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AnalyzerName)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-

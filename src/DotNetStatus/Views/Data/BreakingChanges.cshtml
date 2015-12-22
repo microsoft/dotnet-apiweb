@@ -6,27 +6,29 @@
 @model IEnumerable<BreakingChange>
 
 <table class="table table-responsive table-bordered table-striped">
-    <thead>
+    <thead id="breakingChangesTableHeader">
         <tr class="status-table-header">
             <th>
-                ID
+                <a href="javascript:tableSort($('#breakingChangesTableHeader'), $('#breakingChangesTableBody'), 0, true)">Id</a>
             </th>
             <th>
-                Title
+                <a href="javascript:tableSort($('#breakingChangesTableHeader'), $('#breakingChangesTableBody'), 1, false)">Title</a>
             </th>
         </tr>
     </thead>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-        </tr>
-    }
+    <tbody id="breakingChangesTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 

@@ -1,0 +1,10 @@
+﻿{
+  "version": "2.0.4",
+  "ignore": [],
+  "options": {
+    "for": true
+  },
+  "globalVariables": [
+    "$"
+  ]
+}

@@ -7,32 +7,36 @@
 
 <div style="width:40%">
     <table class="table table-responsive table-bordered">
-        <thead>
+        <thead id="keyValuePairTableHeader">
             <tr class="status-table-header">
                 <th>
-                    Name
+                    <a href="javascript:tableSort($('#keyValuePairTableHeader'), $('#keyValuePairTableBody'), 0, false)">Name</a>
                 </th>
                 <th>
-                    Value
+                    <a href="javascript:tableSort($('#keyValuePairTableHeader'), $('#keyValuePairTableBody'), 1, true)">Value</a>
                 </th>
             </tr>
         </thead>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Key)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Value)
-                </td>
-            </tr>
-        }
+        <tbody id="keyValuePairTableBody">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Key)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                </tr>
+            }
+        </tbody>
 
-        <tr class="status-table-footer">
-            <td>Total</td>
-            <td>@Model.Sum(v => v.Value)</td>
-        </tr>
+        <tfoot id="tableFooter">
+            <tr class="status-table-footer">
+                <td>Total</td>
+                <td>@Model.Sum(v => v.Value)</td>
+            </tr>
+        </tfoot>
     </table>
 </div>

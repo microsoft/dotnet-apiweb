@@ -2,41 +2,91 @@
     Licensed under the MIT license. See LICENSE file in the project root for full license information.
 *@
 
-@using Microsoft.Fx.Portability
+@using Microsoft.Fx.Portability;
+@using Microsoft.Fx.Portability.ObjectModel;
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Converters;
+@using System.Linq;
+@using System.Text;
+
 @model IEnumerable<KeyValuePair<BreakingChangeAnalyzerStatus, int>>
 
-<div style="width:40%">
-    <table class="table table-responsive table-bordered">
-        <thead id="keyValuePairTableHeader">
-            <tr class="status-table-header">
-                <th>
-                    <a href="javascript:tableSort($('#keyValuePairTableHeader'), $('#keyValuePairTableBody'), 0, false)">Name</a>
-                </th>
-                <th>
-                    <a href="javascript:tableSort($('#keyValuePairTableHeader'), $('#keyValuePairTableBody'), 1, true)">Value</a>
-                </th>
-            </tr>
-        </thead>
+@{
+    var data = @Html.Raw(JsonConvert.SerializeObject(Model.Select(v => v.Value), new StringEnumConverter()));
+    var colors = @Html.Raw(JsonConvert.SerializeObject(Model.Select(v => BreakingChangeAnalyzerStatusChartColors.GetColor(v.Key)), new StringEnumConverter()));
+    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.Select(v => v.Key), new StringEnumConverter()));
+}
 
-        <tbody id="keyValuePairTableBody">
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Key)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                </tr>
-            }
-        </tbody>
+@functions{
+    private string CreateLegend()
+    {
+        //Create string builder with starting div
+        StringBuilder result = new StringBuilder("\"<div>");
 
-        <tfoot id="tableFooter">
-            <tr class="status-table-footer">
-                <td>Total</td>
-                <td>@Model.Sum(v => v.Value)</td>
-            </tr>
-        </tfoot>
+        //add legend items
+        foreach (var key in Model.Select(v => v.Key))
+        {
+            result.Append($"<span class='status-chart-legenditem' style='border-color:{BreakingChangeAnalyzerStatusChartColors.GetColor(key)}'>{key.ToString()}</span>");
+        }
+
+        //add ending div
+        result.Append("</div>\"");
+
+        return result.ToString();
+    }
+}
+
+<div class="container-fluid table-responsive">
+    <table class="table" style="width:70%">
+        <tr>
+            <td style="width:50%">
+                <table class="table">
+                    <thead id="keyValuePairTableHeader">
+                        <tr class="status-table-header">
+                            <th>
+                                <a href="javascript:tableSort($('#keyValuePairTableHeader'), $('#keyValuePairTableBody'), 0, false)">Name</a>
+                            </th>
+                            <th>
+                                <a href="javascript:tableSort($('#keyValuePairTableHeader'), $('#keyValuePairTableBody'), 1, true)">Value</a>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="keyValuePairTableBody">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Key)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Value)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                    <tfoot id="keyValuePairTableFooter">
+                        <tr class="status-table-footer">
+                            <td>Total</td>
+                            <td>@Model.Sum(v => v.Value)</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </td>
+            <td>
+                <canvas id="chart-area"></canvas>
+                <span id="chart-legend" style="text-align:center"></span>
+            </td>
+        </tr>
     </table>
 </div>
+
+<script src="~/lib/chartjs/chart.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var ctx = document.getElementById("chart-area").getContext("2d");
+        window.Pie = new Chart(ctx, GetPieChartConfig(@data, @labels, @colors));
+        $("#chart-legend").html(@Html.Raw(CreateLegend()));
+    });
+</script>

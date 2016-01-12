@@ -3,17 +3,6 @@
 *@
 
 @model IEnumerable<SelectListItem>
-<head>
-    <script>
-        $(document).ready(function () {
-            refreshChart($('#ComponentPlaceHolder'), $('#AvailableChoices').val());
-
-            $("#AvailableChoices").change(function () {
-                refreshChart($('#ComponentPlaceHolder'), $('#AvailableChoices').val());
-            });
-        });
-    </script>
-</head>
 <div class="jumbotron">
     <h1>.NET API Data</h1>
     @Html.Label("Available Charts:")
@@ -22,3 +11,13 @@
 
 <div id="ComponentPlaceHolder" class="container-fluid">
 </div>
+
+<script>
+    $(document).ready(function () {
+        refreshChart($('#ComponentPlaceHolder'), $('#AvailableChoices').val());
+
+        $("#AvailableChoices").change(function () {
+            refreshChart($('#ComponentPlaceHolder'), $('#AvailableChoices').val());
+        });
+    });
+</script>

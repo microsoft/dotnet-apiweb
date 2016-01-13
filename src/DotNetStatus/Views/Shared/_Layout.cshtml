@@ -54,13 +54,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Data" asp-action="Index">Data</a></li>
-                    <li><a asp-controller="Usage" asp-action="Index">Usage Data</a></li>
+                    <li><a asp-controller="Data" asp-action="Index">Tools Coverage</a></li>
+                    <li><a asp-controller="Usage" asp-action="Index">Analyzer Results</a></li>
                     @*<li><a asp-controller="Submission" asp-action="Index">Submission</a></li>*@
                 </ul>
                 <div class="navbar-form navbar-right">
                     <div class="form-group">
-                        <input class="form-control" data-autocomplete-url="/search" data-autocomplete-validate-url="/validate" id="searchTextBox" name="searchTextBox" placeholder="Search for API" size="100" type="text" value="" />
+                        <input class="form-control" data-autocomplete-url="/search" data-autocomplete-validate-url="/validate"
+                               id="searchTextBox" name="searchTextBox" placeholder="Search for API" size="100" type="text" value="" />
                         <form asp-controller="FxApi" asp-action="Index" method="get">
                             <input id="docId" name="docId" type="hidden" value="" />
                             <input type="submit" class="hidden" id="searchButton" />
@@ -74,7 +75,11 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - .NET Team</p>
+            <p>
+                <span>Copyright (c) 2016 Microsoft Corporation. All rights reserved.</span>
+                <a style="margin-left:5px" href="http://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx" target="_blank">Terms</a>
+                <a style="margin-left:5px" href="mailto:netfxcompat@microsoft.com?subject=.NET Framework compatibility diagnostic tools site">Contact</a>
+            </p>
         </footer>
     </div>
 </body>

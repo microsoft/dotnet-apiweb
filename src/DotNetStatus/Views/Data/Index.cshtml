@@ -3,9 +3,14 @@
 *@
 
 @model IEnumerable<SelectListItem>
+
+@{
+    ViewBag.Title = "Tools Coverage";
+}
+
 <div class="jumbotron">
-    <h1>.NET API Data</h1>
-    @Html.Label("Available Charts:")
+    <h2>.NET Compatibility Diagnostic Tools Coverage</h2>
+    @Html.Label("Available Data:")
     @Html.DropDownList("AvailableChoices", Model)
 </div>
 

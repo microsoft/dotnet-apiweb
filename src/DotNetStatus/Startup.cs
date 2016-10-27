@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,7 @@ using Microsoft.Fx.Portability;
 using System;
 using System.Net.Http;
 
-namespace DotNetStatus.vNext
+namespace DotNetStatus
 {
     public class Startup
     {
@@ -20,8 +20,8 @@ namespace DotNetStatus.vNext
         {
             // Setup configuration sources.
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile(env.ContentRootFileProvider, "appsettings.json", false, true)
+                .AddJsonFile(env.ContentRootFileProvider, $"appsettings.{env.EnvironmentName}.json", true, true)
                 .AddEnvironmentVariables();
 
             _configuration = builder.Build();
@@ -53,7 +53,7 @@ namespace DotNetStatus.vNext
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInstance(new ProductInformation("DotNetStatus"));
+            services.AddSingleton(new ProductInformation("DotNetStatus"));
             services.AddSingleton<IApiPortService>(CreateService);
             services.AddSingleton<PortabilityToolsStatusService>(CreateJsonDataService);
 

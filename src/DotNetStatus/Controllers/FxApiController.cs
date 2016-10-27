@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Fx.Portability;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace DotNetStatus.Controllers
         {
             if (string.IsNullOrEmpty(docId))
             {
-                return new HttpNotFoundResult();
+                return new NotFoundResult();
             }
 
             try
@@ -37,7 +37,7 @@ namespace DotNetStatus.Controllers
             catch (Exception e)
             {
                 Trace.WriteLine(e);
-                return new HttpNotFoundResult();
+                return new NotFoundResult();
             }
         }
 
@@ -58,7 +58,7 @@ namespace DotNetStatus.Controllers
 
             if (api == null)
             {
-                return new HttpNotFoundResult() as ActionResult;
+                return new NotFoundResult() as ActionResult;
             }
             else
             {

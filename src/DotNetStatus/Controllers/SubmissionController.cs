@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Fx.Portability;
 using Microsoft.Fx.Portability.ObjectModel;
-using System;
 using System.Threading.Tasks;
 
 namespace DotNetStatus.Controllers
@@ -16,36 +15,6 @@ namespace DotNetStatus.Controllers
         public SubmissionController(IApiPortService apiPortService)
         {
             _apiPortService = apiPortService;
-        }
-
-        [Route("submission/{id?}")]
-        public async Task<ActionResult> Index(string id)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                return View((AnalyzeResponse)null);
-            }
-
-            try
-            {
-                var response = await _apiPortService.GetAnalysisAsync(id);
-
-                return View(response.Response);
-            }
-            catch (NotFoundException)
-            {
-                var response = new AnalyzeResponse
-                {
-                    SubmissionId = id,
-                    Targets = null
-                };
-
-                return View(response);
-            }
-            catch (PortabilityAnalyzerException e)
-            {
-                return View(e);
-            }
         }
 
         [Route("Find")]

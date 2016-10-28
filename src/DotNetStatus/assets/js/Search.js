@@ -43,7 +43,7 @@ $(document).ready(function () {
                 success: function (output) {
                     ValidTextBox();
                     EnableButton();
-                    $hiddenDocId.val(output.DocId);
+                    $hiddenDocId.val(output.docId);
                 }
             });
         }
@@ -69,16 +69,16 @@ $(document).ready(function () {
     $searchTextBox.autocomplete({
         source: autocompleteUrl,
         focus: function (event, ui) {
-            $searchTextBox.val(ui.item.FullName);
-            $hiddenDocId.val(ui.item.DocId);
+            $searchTextBox.val(ui.item.fullName);
+            $hiddenDocId.val(ui.item.docId);
 
             ValidateTextBox(validateUrl);
 
             return false;
         },
         select: function (event, ui) {
-            $hiddenDocId.val(ui.item.DocId);
-            $searchTextBox.val(ui.item.FullName);
+            $hiddenDocId.val(ui.item.docId);
+            $searchTextBox.val(ui.item.fullName);
 
             ValidateTextBox(validateUrl);
 
@@ -90,7 +90,7 @@ $(document).ready(function () {
     // Display only full name from results data
     .autocomplete("instance")._renderItem = function (ul, item) {
         return $("<li>")
-            .append("<a>" + item.FullName + "</a>")
+            .append("<a>" + item.fullName + "</a>")
             .appendTo(ul);
     };
 });

@@ -54,7 +54,7 @@ namespace Microsoft.Fx.Portability
             string query = "/Api/data/Analyzers";
             var data = await GetJsonDataAsync<IEnumerable<DiagnosticAnalyzerInfo>>(query);
 
-            return data.OrderBy(o => o.IdNumber);
+            return data.OrderBy(o => o.GetIdNumber());
         }
 
         public async Task<IEnumerable<BreakingChange>> GetBreakingChangesAsync()
